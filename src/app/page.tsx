@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown"; // Import markdown rendering
-import Link from "next/link";
 import {
   PaperAirplaneIcon,
-  UserIcon,
   ChatBubbleLeftEllipsisIcon,
 } from "@heroicons/react/24/solid"; // Icons
 
@@ -16,7 +14,7 @@ export default function Home() {
       text:
         "**Hey there! I'm VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
         "Think of me as your AI-powered Vignesh—I'll answer questions just like he would in an interview! 🎤\n\n" +
-        "⚡ Fun fact: Unlike real interviews, I don’t need coffee breaks! ☕😆\n\n" +
+        "⚡ Fun fact: Unlike real interviews, I don&apos;t need coffee breaks!☕😆\n\n" +
         "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀",
     },
   ]);
