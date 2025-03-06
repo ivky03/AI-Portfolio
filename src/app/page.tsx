@@ -12,8 +12,8 @@ export default function Home() {
     {
       sender: "bot",
       text:
-        "**Hey there! I'm VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
-        "Think of me as your AI-powered Vignesh—I'll answer questions just like he would in an interview! 🎤\n\n" +
+        "**Hey there! I am VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
+        "Think of me as your AI-powered Vignesh—I will answer questions just like he would in an interview! 🎤\n\n" +
         "⚡ Fun fact: Unlike real interviews, I do not need coffee breaks!☕😆\n\n" +
         "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀",
     },
@@ -27,8 +27,8 @@ export default function Home() {
       {
         sender: "bot",
         text:
-          "**Hey there! I'm VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
-          "Think of me as your AI-powered Vignesh—I'll answer questions just like he would in an interview! 🎤\n\n" +
+          "**Hey there! I am VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
+          "Think of me as your AI-powered Vignesh—I will answer questions just like he would in an interview! 🎤\n\n" +
           "⚡ Fun fact: Unlike real interviews, I do not need coffee breaks! ☕😆\n\n" +
           "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀",
       },
@@ -134,7 +134,7 @@ export default function Home() {
             Check out my resume for more details.
           </p>
           <a
-            href="/resume.pdf"
+            href="/VigneshCV.pdf"
             download
             className="inline-block mt-4 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
           >
