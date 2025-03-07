@@ -112,20 +112,22 @@ export default function Home() {
     if ("webkitSpeechRecognition" in window) {
       const SpeechRecognition =
         (window as any).webkitSpeechRecognition ||
-        (window as any).SpeechRecognition; // ✅ Fix here
+        (window as any).SpeechRecognition;
       const recognition = new SpeechRecognition();
 
       recognition.continuous = false;
       recognition.interimResults = false;
       recognition.lang = "en-IN"; // ✅ Set to Indian English
 
-      recognition.onresult = (event: SpeechRecognitionEvent) => {
+      recognition.onresult = (event: any) => {
+        // ✅ Fixed TypeScript error
         const transcript = event.results[0][0].transcript;
         setInput(transcript); // Set recognized speech as input
         sendMessage(); // Auto-send message
       };
 
-      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      recognition.onerror = (event: any) => {
+        // ✅ Fixing any potential type issues
         console.error("Speech recognition error:", event);
       };
 
