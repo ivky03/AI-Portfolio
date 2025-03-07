@@ -263,7 +263,7 @@ export default function Home() {
         <div className="border-l-4 border-blue-400 pl-4 mt-4 text-left animate-fade-in">
           <p>
             <strong>AI/ML Engineer</strong> - Alliant National Title Insurance
-            Co. (Sep 2024 – Present)
+            Co. (Capstone project) (Sep 2024 – Present)
           </p>
           <p className="text-gray-400">
             Developed an Azure-based AI-driven NER system for legal document
@@ -284,7 +284,7 @@ export default function Home() {
           </p>
           <p className="text-gray-400">
             Developed a Selenium based solution to automate data entry and cost
-            savings upto $1000/week
+            savings upto $1000/week.
           </p>
           <br />
           <p>
@@ -384,16 +384,47 @@ export default function Home() {
           </a>
         </div>
         {/* Contact Section */}
-        <div className="text-center">
+        <div className="text-center mt-10">
           <h2 className="text-3xl font-semibold text-blue-400">📩 Contact</h2>
-          <p>Email: vika2375@colorado.edu</p>
-          <p>
+          <p className="mt-4 text-gray-300">Feel free to connect with me:</p>
+          {/* ✅ Added description */}
+          {/* School Email */}
+          <p className="mt-4">
+            🎓 School Email:{" "}
+            <a
+              href="mailto:vika2375@colorado.edu"
+              className="text-blue-400 hover:underline"
+            >
+              vika2375@colorado.edu
+            </a>
+          </p>
+          {/* Personal Email */}
+          <p className="mt-4">
+            ✉️ Personal Email:{" "}
+            <a
+              href="mailto:kvk1011@gmail.com"
+              className="text-blue-400 hover:underline"
+            >
+              kvk1011@gmail.com
+            </a>
+          </p>
+          <p className="mt-4">
             LinkedIn:{" "}
             <a
               href="https://www.linkedin.com/in/k-vignesh-kumar"
               className="text-blue-400 hover:underline"
             >
               Profile
+            </a>
+          </p>
+          {/* GitHub (Newly Added) */}
+          <p className="mt-4">
+            💻 GitHub:{" "}
+            <a
+              href="https://github.com/ivky03"
+              className="text-blue-400 hover:underline"
+            >
+              github.com/ivky03
             </a>
           </p>
         </div>
