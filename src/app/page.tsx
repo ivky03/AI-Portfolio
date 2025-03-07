@@ -7,6 +7,8 @@ import {
   ChatBubbleLeftEllipsisIcon,
   MicrophoneIcon,
   StopIcon,
+  BriefcaseIcon,
+  AcademicCapIcon,
 } from "@heroicons/react/24/solid";
 
 export default function Home() {
@@ -16,9 +18,8 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [speechEnabled, setSpeechEnabled] = useState(true); // ✅ Users can toggle speech on/off
+  const [speechEnabled, setSpeechEnabled] = useState(true);
 
-  // ✅ On load, display chatbot intro message
   useEffect(() => {
     setMessages([
       {
@@ -26,46 +27,40 @@ export default function Home() {
         text:
           "**Hey there! I am VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
           "I will answer your questions like Vignesh himself. 🎤\n\n" +
-          "⚡ Fun fact: Unlike real interviews, I do not need coffee breaks! ☕😆 \n\n" +
-          "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀 \n\n" +
-          "🔊 **I will also speak my answers, but you can stop my voice anytime.** Click the **Stop Speaking** button if you prefer reading only",
+          "🔊 **I will also speak my answers, but you can stop my voice anytime.** Click the **Stop Speaking** button if you prefer reading only. ✅\n\n" +
+          "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀",
       },
     ]);
   }, []);
 
-  // ✅ Speak chatbot's response using Text-to-Speech (TTS) with a friendly male voice
   let speechInstance: SpeechSynthesisUtterance | null = null;
 
   const speak = (text: string) => {
     if ("speechSynthesis" in window && speechEnabled) {
       if (speechInstance) {
-        speechSynthesis.cancel(); // Stop any ongoing speech before starting a new one
+        speechSynthesis.cancel();
       }
 
       speechInstance = new SpeechSynthesisUtterance(text);
-      speechInstance.lang = "en-IN"; // ✅ Indian English accent
-      speechInstance.rate = 1; // Adjust speed (1 = normal)
+      speechInstance.lang = "en-IN";
+      speechInstance.rate = 1;
       setIsSpeaking(true);
 
-      // ✅ Set a friendly Indian accent (Male or Female)
       const voices = speechSynthesis.getVoices();
       speechInstance.voice =
-        voices.find(
-          (voice) =>
-            voice.name.includes("Google India English Male") ||
-            voice.name.includes("Google India English Female")
+        voices.find((voice) =>
+          voice.name.includes("Google India English Male")
         ) ||
-        voices.find((voice) => voice.lang === "en-IN") || // Fallback to any Indian voice
+        voices.find((voice) => voice.lang === "en-IN") ||
         voices[0];
 
-      speechInstance.onend = () => setIsSpeaking(false); // Reset speaking state when speech ends
+      speechInstance.onend = () => setIsSpeaking(false);
       speechSynthesis.speak(speechInstance);
     } else {
-      console.log("Text-to-Speech not supported in this browser.");
+      console.log("Text-to-Speech not supported.");
     }
   };
 
-  // ✅ Function to stop speech manually
   const stopSpeaking = () => {
     if (speechSynthesis.speaking) {
       speechSynthesis.cancel();
@@ -73,12 +68,10 @@ export default function Home() {
     }
   };
 
-  // ✅ Toggle Speech On/Off
   const toggleSpeech = () => {
     setSpeechEnabled((prev) => !prev);
   };
 
-  // ✅ Send message & fetch response from API
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -98,7 +91,7 @@ export default function Home() {
       if (data.reply) {
         setMessages((prev) => [...prev, { sender: "bot", text: data.reply }]);
 
-        if (speechEnabled) speak(data.reply); // ✅ Speak response if enabled
+        if (speechEnabled) speak(data.reply);
       }
     } catch (error) {
       console.error("Chatbot error:", error);
@@ -107,7 +100,6 @@ export default function Home() {
     }
   };
 
-  // ✅ Start speech recognition (Speech-to-Text)
   const startListening = () => {
     if ("webkitSpeechRecognition" in window) {
       const SpeechRecognition =
@@ -117,23 +109,21 @@ export default function Home() {
 
       recognition.continuous = false;
       recognition.interimResults = false;
-      recognition.lang = "en-IN"; // ✅ Set to Indian English
+      recognition.lang = "en-IN";
 
       recognition.onresult = (event: any) => {
-        // ✅ Fixed TypeScript error
         const transcript = event.results[0][0].transcript;
-        setInput(transcript); // Set recognized speech as input
-        sendMessage(); // Auto-send message
+        setInput(transcript);
+        sendMessage();
       };
 
       recognition.onerror = (event: any) => {
-        // ✅ Fixing any potential type issues
         console.error("Speech recognition error:", event);
       };
 
       recognition.start();
     } else {
-      console.log("Speech recognition is not supported in this browser.");
+      console.log("Speech recognition is not supported.");
     }
   };
 
@@ -177,7 +167,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Input Box with Speech-to-Text & Stop Speech Buttons */}
         <div className="flex mt-4">
           <button
             className="bg-gray-600 px-4 py-3 rounded-l-lg hover:bg-gray-700 flex items-center"
@@ -205,23 +194,47 @@ export default function Home() {
             )}
           </button>
         </div>
+      </div>
 
-        {/* Stop Speaking & Toggle Speech Button */}
-        <div className="mt-3 flex gap-4">
-          <button
-            className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600"
-            onClick={stopSpeaking}
-            disabled={!isSpeaking}
+      {/* Resume, Projects, Contact, Education, and Work Experience Sections */}
+      <div className="w-full max-w-3xl mt-10">
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-semibold text-blue-400">📜 Resume</h2>
+          <a
+            href="/VigneshCV.pdf"
+            download
+            className="inline-block mt-4 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
           >
-            <StopIcon className="h-5 w-5 text-white inline-block mr-2" /> Stop
-            Speaking
-          </button>
-          <button
-            className="bg-gray-500 px-4 py-2 rounded-lg hover:bg-gray-600"
-            onClick={toggleSpeech}
-          >
-            {speechEnabled ? "🔊 Disable Speech" : "🔈 Enable Speech"}
-          </button>
+            Download Resume
+          </a>
+        </div>
+
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-semibold text-blue-400">🚀 Projects</h2>
+          <p>Check out my projects:</p>
+          <ul className="mt-4 space-y-2">
+            <li>
+              <a href="#" className="text-blue-400 hover:underline">
+                AI-Powered Financial Research Chatbot
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-semibold text-blue-400">🎓 Education</h2>
+          <p>University of Colorado Boulder - Master’s in AI</p>
+        </div>
+
+        <div className="text-center">
+          <h2 className="text-3xl font-semibold text-blue-400">📩 Contact</h2>
+          <p>Email: vika2375@colorado.edu</p>
+          <p>
+            LinkedIn:{" "}
+            <a href="#" className="text-blue-400 hover:underline">
+              Profile
+            </a>
+          </p>
         </div>
       </div>
     </main>
