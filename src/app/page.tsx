@@ -109,6 +109,16 @@ export default function Home() {
           AI Engineer | Machine Learning Enthusiast | Software Developer
         </p>
       </header>
+      {/* Introduction */}
+      <div className="w-full max-w-3xl mt-6 text-center bg-gray-800 p-6 rounded-lg shadow-lg">
+        <p className="text-lg text-gray-300">
+          Hi, I'm Vignesh Kumar Karthikeyan, a passionate AI Engineer and
+          Machine Learning enthusiast with expertise in building intelligent
+          systems, predictive models, and chatbots. I specialize in NLP, deep
+          learning, and cloud-based AI solutions. My goal is to create
+          cutting-edge AI applications that make a meaningful impact. 🚀
+        </p>
+      </div>
 
       {/* Chatbot Section */}
       <div className="w-full max-w-3xl mt-10 bg-gray-800 p-6 rounded-lg shadow-lg">
@@ -136,6 +146,63 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+      {/* Education Section */}
+      <div className="w-full max-w-3xl mt-10">
+        <h2 className="text-3xl font-semibold text-blue-400 text-center">
+          🎓 Education
+        </h2>
+        <div className="border-l-4 border-blue-400 pl-4 mt-4 text-left">
+          <p>
+            <strong>Master’s in Computer Science (AI Specialization)</strong> -
+            University of Colorado Boulder (2023 - 2025)
+          </p>
+          <br />
+          <p>
+            <strong>B.E. in Computer Science & Engineering</strong> - College of
+            Engineering, Guindy, Anna University (2019 - 2023)
+          </p>
+        </div>
+      </div>
+      {/* Work Experience Section */}
+      <div className="w-full max-w-3xl mt-10">
+        <h2 className="text-3xl font-semibold text-blue-400 text-center">
+          💼 Work Experience
+        </h2>
+        <div className="border-l-4 border-blue-400 pl-4 mt-4 text-left">
+          <p>
+            <strong>AI/ML Engineer</strong> - Alliant National Title Insurance
+            Co. (Sep 2024 – Present)
+          </p>
+          <p className="text-gray-400">
+            Developed an Azure-based AI-driven NER system for legal document
+            processing.
+          </p>
+          <br />
+          <p>
+            <strong>MSCS Course Facilitator</strong> - University of Colorado
+            Boulder (Apr 2024 – Present)
+          </p>
+          <p className="text-gray-400">
+            Assisting students in Data Mining, Machine Learning, and AI courses.
+          </p>
+          <br />
+          <p>
+            <strong>Data Automation and Entry Technician</strong> - University
+            of Colorado Boulder (Oct 2023 – Apr 2024)
+          </p>
+          <p className="text-gray-400">
+            Developed a Selenium based solution to automate data entry and cost
+            savings upto $1000/week
+          </p>
+          <br />
+          <p>
+            <strong>Intern</strong> - Intel Corporation (Jan 2023 – Jun 2023)
+          </p>
+          <p className="text-gray-400">
+            Automated data processing for 70,000 devices via REST API.
+          </p>
         </div>
       </div>
 
