@@ -279,7 +279,20 @@ export default function Home() {
             </li>
           </ul>
         </div>
-
+        {/* Resume Section */}
+        <div className="w-full max-w-3xl mt-10 text-center">
+          <h2 className="text-3xl font-semibold text-blue-400">📜 Resume</h2>
+          <p className="text-gray-300 mt-2">
+            Download my resume for more details on my experience and skills.
+          </p>
+          <a
+            href="/VigneshCV.pdf"
+            download
+            className="inline-block mt-4 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
+          >
+            Download Resume
+          </a>
+        </div>
         {/* Contact Section */}
         <div className="text-center">
           <h2 className="text-3xl font-semibold text-blue-400">📩 Contact</h2>
