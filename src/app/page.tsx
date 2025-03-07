@@ -100,33 +100,6 @@ export default function Home() {
     }
   };
 
-  const startListening = () => {
-    if ("webkitSpeechRecognition" in window) {
-      const SpeechRecognition =
-        (window as any).webkitSpeechRecognition ||
-        (window as any).SpeechRecognition;
-      const recognition = new SpeechRecognition();
-
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = "en-IN";
-
-      recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setInput(transcript);
-        sendMessage();
-      };
-
-      recognition.onerror = (event: any) => {
-        console.error("Speech recognition error:", event);
-      };
-
-      recognition.start();
-    } else {
-      console.log("Speech recognition is not supported.");
-    }
-  };
-
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-6">
       {/* Header */}
@@ -166,66 +139,87 @@ export default function Home() {
             </div>
           ))}
         </div>
-
-        <div className="flex mt-4">
-          <button
-            className="bg-gray-600 px-4 py-3 rounded-l-lg hover:bg-gray-700 flex items-center"
-            onClick={startListening}
-          >
-            <MicrophoneIcon className="h-5 w-5 text-white" />
-          </button>
-          <input
-            type="text"
-            className="flex-1 px-4 py-3 bg-gray-700 text-white border border-gray-600 focus:outline-none"
-            placeholder="Ask me anything..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          />
-          <button
-            className="bg-blue-500 px-4 py-3 rounded-r-lg hover:bg-blue-600 disabled:bg-gray-500 flex items-center"
-            onClick={sendMessage}
-            disabled={loading}
-          >
-            {loading ? (
-              "..."
-            ) : (
-              <PaperAirplaneIcon className="h-5 w-5 text-white rotate-45" />
-            )}
-          </button>
-        </div>
       </div>
 
       {/* Resume, Projects, Contact, Education, and Work Experience Sections */}
       <div className="w-full max-w-3xl mt-10">
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-semibold text-blue-400">📜 Resume</h2>
-          <a
-            href="/VigneshCV.pdf"
-            download
-            className="inline-block mt-4 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
-          >
-            Download Resume
-          </a>
+        {/* Education Timeline */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-semibold text-blue-400 text-center">
+            🎓 Education
+          </h2>
+          <div className="border-l-4 border-blue-400 pl-4 mt-4">
+            <p>
+              <strong>Master’s in Computer Science (AI Specialization)</strong>{" "}
+              - University of Colorado Boulder (2023 - 2025)
+            </p>
+            <p className="text-gray-400">
+              Focused on AI, Machine Learning, NLP
+            </p>
+            <br />
+            <p>
+              <strong>B.E. in Computer Science & Engineering</strong> - College
+              of Engineering, Guindy, Anna University (2019 - 2023)
+            </p>
+            <p className="text-gray-400">
+              Graduated with First Class with Distinction
+            </p>
+          </div>
         </div>
 
+        {/* Work Experience Timeline */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-semibold text-blue-400 text-center">
+            💼 Work Experience
+          </h2>
+          <div className="border-l-4 border-blue-400 pl-4 mt-4">
+            <p>
+              <strong>AI/ML Engineer</strong> - Alliant National Title Insurance
+              Co. (Sep 2024 – Present)
+            </p>
+            <p className="text-gray-400">
+              Developed an Azure-based AI-driven NER system for legal document
+              processing.
+            </p>
+            <br />
+            <p>
+              <strong>MSCS Course Facilitator</strong> - University of Colorado
+              Boulder (Apr 2024 – Present)
+            </p>
+            <p className="text-gray-400">
+              Assisting students in Data Mining, Machine Learning, and AI
+              courses.
+            </p>
+            <br />
+            <p>
+              <strong>Intern</strong> - Intel Corporation (Jan 2023 – Jun 2023)
+            </p>
+            <p className="text-gray-400">
+              Automated data processing for 70,000 devices via REST API.
+            </p>
+          </div>
+        </div>
+
+        {/* Projects */}
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-semibold text-blue-400">🚀 Projects</h2>
-          <p>Check out my projects:</p>
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-4 space-y-2 text-left">
             <li>
-              <a href="#" className="text-blue-400 hover:underline">
-                AI-Powered Financial Research Chatbot
-              </a>
+              <strong>AI Debate Agent</strong> - Built an AI debate system using
+              Google Gemini API.
+            </li>
+            <li>
+              <strong>AI-Powered Financial Research Chatbot</strong> - NLP
+              chatbot for financial insights.
+            </li>
+            <li>
+              <strong>Customer Churn Prediction</strong> - Machine learning
+              model to predict customer retention.
             </li>
           </ul>
         </div>
 
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-semibold text-blue-400">🎓 Education</h2>
-          <p>University of Colorado Boulder - Master’s in AI</p>
-        </div>
-
+        {/* Contact */}
         <div className="text-center">
           <h2 className="text-3xl font-semibold text-blue-400">📩 Contact</h2>
           <p>Email: vika2375@colorado.edu</p>
