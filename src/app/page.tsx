@@ -13,8 +13,8 @@ export default function Home() {
       sender: "bot",
       text:
         "**Hey there! I am VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
-        "Think of me as your AI-powered Vignesh—I will answer questions just like he would in an interview! 🎤\n\n" +
-        "⚡ Fun fact: Unlike real interviews, I do not need coffee breaks!☕😆\n\n" +
+        "Think of me as your AI-powered Vignesh—I&apos;ll answer questions just like he would in an interview! 🎤\n\n" +
+        "⚡ Fun fact: Unlike real interviews, I don&apos;t need coffee breaks!☕😆\n\n" +
         "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀",
     },
   ]);
