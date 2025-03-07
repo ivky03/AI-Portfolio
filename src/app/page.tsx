@@ -7,8 +7,6 @@ import {
   ChatBubbleLeftEllipsisIcon,
   MicrophoneIcon,
   StopIcon,
-  BriefcaseIcon,
-  AcademicCapIcon,
 } from "@heroicons/react/24/solid";
 
 export default function Home() {
@@ -141,91 +139,90 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Resume, Projects, Contact, Education, and Work Experience Sections */}
+      {/* Projects Section */}
       <div className="w-full max-w-3xl mt-10">
-        {/* Education Timeline */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-semibold text-blue-400 text-center">
-            🎓 Education
-          </h2>
-          <div className="border-l-4 border-blue-400 pl-4 mt-4">
-            <p>
-              <strong>Master’s in Computer Science (AI Specialization)</strong>{" "}
-              - University of Colorado Boulder (2023 - 2025)
-            </p>
-            <p className="text-gray-400">
-              Focused on AI, Machine Learning, NLP
-            </p>
-            <br />
-            <p>
-              <strong>B.E. in Computer Science & Engineering</strong> - College
-              of Engineering, Guindy, Anna University (2019 - 2023)
-            </p>
-            <p className="text-gray-400">
-              Graduated with First Class with Distinction
-            </p>
-          </div>
-        </div>
-
-        {/* Work Experience Timeline */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-semibold text-blue-400 text-center">
-            💼 Work Experience
-          </h2>
-          <div className="border-l-4 border-blue-400 pl-4 mt-4">
-            <p>
-              <strong>AI/ML Engineer</strong> - Alliant National Title Insurance
-              Co. (Sep 2024 – Present)
-            </p>
-            <p className="text-gray-400">
-              Developed an Azure-based AI-driven NER system for legal document
-              processing.
-            </p>
-            <br />
-            <p>
-              <strong>MSCS Course Facilitator</strong> - University of Colorado
-              Boulder (Apr 2024 – Present)
-            </p>
-            <p className="text-gray-400">
-              Assisting students in Data Mining, Machine Learning, and AI
-              courses.
-            </p>
-            <br />
-            <p>
-              <strong>Intern</strong> - Intel Corporation (Jan 2023 – Jun 2023)
-            </p>
-            <p className="text-gray-400">
-              Automated data processing for 70,000 devices via REST API.
-            </p>
-          </div>
-        </div>
-
-        {/* Projects */}
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-semibold text-blue-400">🚀 Projects</h2>
-          <ul className="mt-4 space-y-2 text-left">
+          <ul className="mt-4 space-y-4 text-left">
             <li>
-              <strong>AI Debate Agent</strong> - Built an AI debate system using
-              Google Gemini API.
+              <strong>🔹 AI Debate Agent</strong> - AI-powered system that
+              debates topics dynamically.
+              <br />
+              <a
+                href="https://ai-debate-agent-rby4ux2agtw4yxkrlgmkp8.streamlit.app/"
+                className="text-blue-400 hover:underline"
+              >
+                Live Demo
+              </a>{" "}
+              |{" "}
+              <a
+                href="https://github.com/ivky03/ai-debate-agent"
+                className="text-blue-400 hover:underline"
+              >
+                GitHub
+              </a>
             </li>
             <li>
-              <strong>AI-Powered Financial Research Chatbot</strong> - NLP
-              chatbot for financial insights.
+              <strong>🔹 AI-Powered Financial Research Chatbot</strong> - NLP
+              chatbot providing insights from financial data.
+              <br />
+              <a
+                href="https://github.com/ivky03/financial-chatbot"
+                className="text-blue-400 hover:underline"
+              >
+                GitHub
+              </a>
             </li>
             <li>
-              <strong>Customer Churn Prediction</strong> - Machine learning
-              model to predict customer retention.
+              <strong>🔹 Customer Churn Prediction</strong> - ML model
+              predicting customer retention rates.
+              <br />
+              <a
+                href="https://github.com/ivky03/customer-churn"
+                className="text-blue-400 hover:underline"
+              >
+                GitHub
+              </a>
+            </li>
+            <li>
+              <strong>
+                🔹 Wind Power Forecasting with Ensemble
+                Model(LSTM,Transformers,GBDT)
+              </strong>{" "}
+              - ML model predicting wind power forecasting.
+              <br />
+              <a
+                href="https://github.com/ivky03/Wind-Power-Forecasting-using-Ensemble-Learning"
+                className="text-blue-400 hover:underline"
+              >
+                GitHub
+              </a>
+            </li>
+            <li>
+              <strong>🔹 Movie Recommendation System</strong> - ML model
+              predicting movie titles based on Collaborative and Content
+              Filtering methods.
+              <br />
+              <a
+                href="https://github.com/ivky03/Movie-Recommendation-System"
+                className="text-blue-400 hover:underline"
+              >
+                GitHub
+              </a>
             </li>
           </ul>
         </div>
 
-        {/* Contact */}
+        {/* Contact Section */}
         <div className="text-center">
           <h2 className="text-3xl font-semibold text-blue-400">📩 Contact</h2>
           <p>Email: vika2375@colorado.edu</p>
           <p>
             LinkedIn:{" "}
-            <a href="#" className="text-blue-400 hover:underline">
+            <a
+              href="https://www.linkedin.com/in/k-vignesh-kumar"
+              className="text-blue-400 hover:underline"
+            >
               Profile
             </a>
           </p>
