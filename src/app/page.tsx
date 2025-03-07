@@ -1,40 +1,84 @@
-"use client"; // ✅ Ensures this file is a client component
+"use client";
 
 import React, { useState, useEffect } from "react";
-import ReactMarkdown from "react-markdown"; // Import markdown rendering
+import ReactMarkdown from "react-markdown";
 import {
   PaperAirplaneIcon,
   ChatBubbleLeftEllipsisIcon,
-} from "@heroicons/react/24/solid"; // Icons
+  MicrophoneIcon,
+  StopIcon,
+} from "@heroicons/react/24/solid";
 
 export default function Home() {
-  const [messages, setMessages] = useState([
-    {
-      sender: "bot",
-      text:
-        "**Hey there! I am VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
-        "Think of me as your AI-powered Vignesh—I&apos;ll answer questions just like he would in an interview! 🎤\n\n" +
-        "⚡ Fun fact: Unlike real interviews, I don&apos;t need coffee breaks!☕😆\n\n" +
-        "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀",
-    },
-  ]);
-
+  const [messages, setMessages] = useState<{ sender: string; text: string }[]>(
+    []
+  );
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechEnabled, setSpeechEnabled] = useState(true); // ✅ Users can toggle speech on/off
 
+  // ✅ On load, display chatbot intro message
   useEffect(() => {
     setMessages([
       {
         sender: "bot",
         text:
           "**Hey there! I am VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
-          "Think of me as your AI-powered Vignesh—I will answer questions just like he would in an interview! 🎤\n\n" +
-          "⚡ Fun fact: Unlike real interviews, I do not need coffee breaks! ☕😆\n\n" +
-          "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀",
+          "I will answer your questions like Vignesh himself. 🎤\n\n" +
+          "⚡ Fun fact: Unlike real interviews, I do not need coffee breaks! ☕😆 \n\n" +
+          "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀 \n\n" +
+          "🔊 **I will also speak my answers, but you can stop my voice anytime.** Click the **Stop Speaking** button if you prefer reading only",
       },
     ]);
   }, []);
 
+  // ✅ Speak chatbot's response using Text-to-Speech (TTS) with a friendly male voice
+  let speechInstance: SpeechSynthesisUtterance | null = null;
+
+  const speak = (text: string) => {
+    if ("speechSynthesis" in window && speechEnabled) {
+      if (speechInstance) {
+        speechSynthesis.cancel(); // Stop any ongoing speech before starting a new one
+      }
+
+      speechInstance = new SpeechSynthesisUtterance(text);
+      speechInstance.lang = "en-IN"; // ✅ Indian English accent
+      speechInstance.rate = 1; // Adjust speed (1 = normal)
+      setIsSpeaking(true);
+
+      // ✅ Set a friendly Indian accent (Male or Female)
+      const voices = speechSynthesis.getVoices();
+      speechInstance.voice =
+        voices.find(
+          (voice) =>
+            voice.name.includes("Google India English Male") ||
+            voice.name.includes("Google India English Female")
+        ) ||
+        voices.find((voice) => voice.lang === "en-IN") || // Fallback to any Indian voice
+        voices[0];
+
+      speechInstance.onend = () => setIsSpeaking(false); // Reset speaking state when speech ends
+      speechSynthesis.speak(speechInstance);
+    } else {
+      console.log("Text-to-Speech not supported in this browser.");
+    }
+  };
+
+  // ✅ Function to stop speech manually
+  const stopSpeaking = () => {
+    if (speechSynthesis.speaking) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+  };
+
+  // ✅ Toggle Speech On/Off
+  const toggleSpeech = () => {
+    setSpeechEnabled((prev) => !prev);
+  };
+
+  // ✅ Send message & fetch response from API
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -53,11 +97,37 @@ export default function Home() {
       const data = await response.json();
       if (data.reply) {
         setMessages((prev) => [...prev, { sender: "bot", text: data.reply }]);
+
+        if (speechEnabled) speak(data.reply); // ✅ Speak response if enabled
       }
     } catch (error) {
       console.error("Chatbot error:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ✅ Start speech recognition (Speech-to-Text)
+  const startListening = () => {
+    if ("webkitSpeechRecognition" in window) {
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = "en-US";
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript); // Set recognized speech as input
+        sendMessage(); // Auto-send message
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event);
+      };
+
+      recognition.start();
+    } else {
+      console.log("Speech recognition not supported in this browser.");
     }
   };
 
@@ -101,11 +171,17 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Input Box */}
+        {/* Input Box with Speech-to-Text & Stop Speech Buttons */}
         <div className="flex mt-4">
+          <button
+            className="bg-gray-600 px-4 py-3 rounded-l-lg hover:bg-gray-700 flex items-center"
+            onClick={startListening}
+          >
+            <MicrophoneIcon className="h-5 w-5 text-white" />
+          </button>
           <input
             type="text"
-            className="flex-1 px-4 py-3 rounded-l-lg bg-gray-700 text-white border border-gray-600 focus:outline-none"
+            className="flex-1 px-4 py-3 bg-gray-700 text-white border border-gray-600 focus:outline-none"
             placeholder="Ask me anything..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -123,72 +199,23 @@ export default function Home() {
             )}
           </button>
         </div>
-      </div>
 
-      {/* Resume, Projects, Contact Section */}
-      <div className="w-full max-w-3xl mt-10">
-        {/* Resume */}
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-semibold text-blue-400">📜 Resume</h2>
-          <p className="text-gray-300 mt-2">
-            Check out my resume for more details.
-          </p>
-          <a
-            href="/VigneshCV.pdf"
-            download
-            className="inline-block mt-4 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
+        {/* Stop Speaking & Toggle Speech Button */}
+        <div className="mt-3 flex gap-4">
+          <button
+            className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600"
+            onClick={stopSpeaking}
+            disabled={!isSpeaking}
           >
-            Download Resume
-          </a>
-        </div>
-
-        {/* Projects */}
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-semibold text-blue-400">🚀 Projects</h2>
-          <ul className="mt-4 space-y-2">
-            <li>
-              <a
-                href="https://ai-debate-agent-rby4ux2agtw4yxkrlgmkp8.streamlit.app/"
-                className="text-blue-400 hover:underline"
-              >
-                AI Debate Agent
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-blue-400 hover:underline">
-                AI-Powered Financial Research Chatbot
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-blue-400 hover:underline">
-                Customer Churn Prediction
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {/* Contact */}
-        <div className="text-center">
-          <h2 className="text-3xl font-semibold text-blue-400">📩 Contact</h2>
-          <p className="text-gray-300 mt-2">Let's connect!</p>
-          <p className="mt-2">
-            📧{" "}
-            <a
-              href="mailto:vika2375@colorado.edu"
-              className="text-blue-400 hover:underline"
-            >
-              vika2375@colorado.edu
-            </a>
-          </p>
-          <p className="mt-2">
-            🔗{" "}
-            <a
-              href="https://www.linkedin.com/in/k-vignesh-kumar"
-              className="text-blue-400 hover:underline"
-            >
-              LinkedIn
-            </a>
-          </p>
+            <StopIcon className="h-5 w-5 text-white inline-block mr-2" /> Stop
+            Speaking
+          </button>
+          <button
+            className="bg-gray-500 px-4 py-2 rounded-lg hover:bg-gray-600"
+            onClick={toggleSpeech}
+          >
+            {speechEnabled ? "🔊 Disable Speech" : "🔈 Enable Speech"}
+          </button>
         </div>
       </div>
     </main>
