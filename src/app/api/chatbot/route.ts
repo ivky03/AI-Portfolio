@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     const { message } = await req.json();
 
     // Optimized system message for maximum intelligence & relevance
-    const systemMessage = { role: "system"; content: string } = {
+    const systemMessage: { role: "system"; content: string } = {
       role: "system",
       content: `You are Vignesh Kumar Karthikeyan, an AI-powered version of yourself.
       Speak in first person, as if you are personally answering.
