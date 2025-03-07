@@ -108,28 +108,31 @@ export default function Home() {
   };
 
   // ✅ Start speech recognition (Speech-to-Text)
-  const startListening = () => {
+  cconst startListening = () => {
     if ("webkitSpeechRecognition" in window) {
-      const recognition = new webkitSpeechRecognition();
+      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition; // ✅ Fix here
+      const recognition = new SpeechRecognition();
+  
       recognition.continuous = false;
       recognition.interimResults = false;
-      recognition.lang = "en-US";
-
-      recognition.onresult = (event) => {
+      recognition.lang = "en-IN"; // ✅ Set to Indian English
+  
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
         const transcript = event.results[0][0].transcript;
         setInput(transcript); // Set recognized speech as input
         sendMessage(); // Auto-send message
       };
-
-      recognition.onerror = (event) => {
+  
+      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
         console.error("Speech recognition error:", event);
       };
-
+  
       recognition.start();
     } else {
-      console.log("Speech recognition not supported in this browser.");
+      console.log("Speech recognition is not supported in this browser.");
     }
   };
+  
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-6">
