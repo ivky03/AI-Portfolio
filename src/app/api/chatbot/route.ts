@@ -91,8 +91,11 @@ export async function POST(req: Request) {
     
 
     // User question
-    const userMessage = { role: "user", content: message };
-
+    const userMessage: { role: "user"; content: string } = { 
+      role: "user", 
+      content: message 
+    };
+    const messages: Array<{ role: "system" | "user"; content: string }> = [systemMessage, userMessage];
     // Call OpenAI API with maximum intelligence
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
