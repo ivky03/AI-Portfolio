@@ -324,7 +324,7 @@ export default function Home() {
               chatbot providing insights from financial data.
               <br />
               <a
-                href="https://github.com/ivky03/financial-chatbot"
+                href="https://github.com/ivky03/AI-financial-chatbot"
                 className="text-blue-400 hover:underline"
               >
                 GitHub
