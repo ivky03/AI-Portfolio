@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import {
   PaperAirplaneIcon,
@@ -17,19 +17,30 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speechEnabled, setSpeechEnabled] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const [lastMessageCount, setLastMessageCount] = useState(0);
 
   useEffect(() => {
     setMessages([
       {
         sender: "bot",
-        text:
-          "**Hey there! I am VickAI 🤖, Vignesh's personal AI assistant.**\n\n" +
-          "I will answer your questions like Vignesh himself. 🎤\n\n" +
-          "🔊 **I will also speak my answers, but you can stop my voice anytime.** Click the **Stop Speaking** button if you prefer reading only. ✅\n\n" +
-          "Go ahead, ask me about Vignesh's skills, experience, projects, or even some fun facts! 🚀",
+        text: "Ask me anything — I'm ready when you are! 👋",
       },
     ]);
   }, []);
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+
+    if (
+      chatContainerRef.current &&
+      messages.length > lastMessageCount &&
+      lastMessage?.sender === "bot"
+    ) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+      setLastMessageCount(messages.length);
+    }
+  }, [messages]);
 
   let speechInstance: SpeechSynthesisUtterance | null = null;
 
@@ -127,7 +138,15 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-6">
       {/* Main Header (Centered at the Top) */}
-      <header className="w-full text-center mt-10">
+      <header className="w-full text-center mt-10 flex flex-col items-center">
+        {/* Small Circular Profile Image */}
+        <img
+          src="/profile.jpeg"
+          alt="Vignesh Kumar Karthikeyan"
+          className="w-32 h-32 rounded-full object-cover border-4 border-gray-700 shadow-md mb-5"
+        />
+
+        {/* Name & Title */}
         <h1 className="text-5xl font-extrabold text-blue-400">
           Vignesh Kumar Karthikeyan
         </h1>
@@ -148,98 +167,46 @@ export default function Home() {
             cutting-edge AI applications that make a meaningful impact. 🚀
           </p>
         </div>
+        {/* Resume Section at Top */}
+        <section id="resume" className="w-full max-w-4xl mt-10 text-center">
+          <h2 className="text-3xl font-semibold text-blue-400">📄 Resume</h2>
+          <p className="text-gray-300 mt-2">
+            Preview or download my resume below.
+          </p>
 
-        {/* Bottom Section: Profile Image (Left) & Chatbot (Right) */}
-        <div className="flex flex-col md:flex-row items-start justify-center w-full gap-10">
-          {/* Left Section: Profile Image */}
-          <div className="md:w-1/3 flex justify-center items-center">
-            <img
-              src="/profile.jpeg"
-              alt="Vignesh Kumar Karthikeyan"
-              className="w-180 h-150 rounded-full object-cover object-top shadow-2xl border-4 border-gray-700 transition-all duration-300 hover:scale-105"
-            />
+          {/* Embedded PDF viewer */}
+          <div className="mt-6">
+            <iframe
+              src="/VIgneshKumarCV.pdf"
+              width="100%"
+              height="500px"
+              className="rounded-lg border border-gray-700 shadow-md"
+            ></iframe>
           </div>
 
-          {/* Right Section: Chatbot */}
-          <div className="md:w-2/3 bg-gray-800 p-6 rounded-lg shadow-lg h-full transition-all duration-300 hover:bg-gray-700 hover:shadow-xl">
-            <h2 className="text-2xl font-semibold text-blue-300 mb-4 flex items-center">
-              <ChatBubbleLeftEllipsisIcon className="h-6 w-6 mr-2 text-blue-400" />
-              Chat with VickAI 🤖
-            </h2>
-
-            <div className="h-96 overflow-y-auto border border-gray-600 rounded-lg p-4 bg-gray-900">
-              {messages.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`flex mb-4 ${
-                    msg.sender === "user" ? "justify-end" : "justify-start"
-                  } animate-slide-up`}
-                >
-                  <div
-                    className={`px-4 py-2 max-w-xs rounded-lg ${
-                      msg.sender === "user"
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-700 text-gray-200"
-                    }`}
-                  >
-                    <ReactMarkdown>{msg.text}</ReactMarkdown>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Input Section */}
-            <div className="flex mt-4">
-              <button
-                className="bg-gray-600 px-4 py-3 rounded-l-lg hover:bg-gray-700 flex items-center transition-all duration-300"
-                onClick={startListening}
-              >
-                <MicrophoneIcon className="h-5 w-5 text-white" />
-              </button>
-              <input
-                type="text"
-                className="flex-1 px-4 py-3 bg-gray-700 text-white border border-gray-600 focus:outline-none rounded-r-none"
-                placeholder="Ask me anything..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              />
-              <button
-                className="bg-blue-500 px-4 py-3 rounded-r-lg hover:bg-blue-600 disabled:bg-gray-500 flex items-center transition-all duration-300"
-                onClick={sendMessage}
-                disabled={loading}
-              >
-                {loading ? (
-                  "..."
-                ) : (
-                  <PaperAirplaneIcon className="h-5 w-5 text-white rotate-45" />
-                )}
-              </button>
-            </div>
-
-            {/* Stop Speaking & Toggle Speech Buttons */}
-            <div className="mt-3 flex gap-4">
-              <button
-                className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 flex items-center transition-all duration-300"
-                onClick={stopSpeaking}
-                disabled={!isSpeaking}
-              >
-                <StopIcon className="h-5 w-5 text-white inline-block mr-2" />{" "}
-                Stop Speaking
-              </button>
-              <button
-                className="bg-gray-500 px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center transition-all duration-300"
-                onClick={toggleSpeech}
-              >
-                {speechEnabled ? "🔊 Disable Speech" : "🔈 Enable Speech"}
-              </button>
-            </div>
+          {/* Buttons */}
+          <div className="mt-4">
+            <a
+              href="/VIgneshKumarCV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-blue-500 hover:scale-105 transition-all duration-300"
+            >
+              View Fullscreen
+            </a>
+            <a
+              href="/VIgneshKumarCV.pdf"
+              download
+              className="inline-block px-6 py-3 ml-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300"
+            >
+              Download Resume
+            </a>
           </div>
-        </div>
+        </section>
       </div>
 
       {/* Education Section */}
-      <div className="w-full max-w-3xl mt-10">
+      <div id="education" className="w-full max-w-3xl mt-10">
         <h2 className="text-3xl font-semibold text-blue-400 text-center">
           🎓 Education
         </h2>
@@ -256,7 +223,7 @@ export default function Home() {
         </div>
       </div>
       {/* Work Experience Section */}
-      <div className="w-full max-w-3xl mt-10">
+      <div id="experience" className="w-full max-w-3xl mt-10">
         <h2 className="text-3xl font-semibold text-blue-400 text-center">
           💼 Work Experience
         </h2>
@@ -266,8 +233,12 @@ export default function Home() {
             Co. (Capstone project) (Sep 2024 – Present)
           </p>
           <p className="text-gray-400">
-            Developed an Azure-based AI-driven NER system for legal document
-            processing.
+            Implementing an Azure based AI-driven Named Entity Recognition (NER)
+            system, automating data extraction from legal documents within a
+            structured SDLC framework. Collaborating in a cross-functional team,
+            contributing to weekly sprint meetings, resolving technical
+            blockers, and designing a responsive query interface to improve
+            document retrieval efficiency.
           </p>
           <br />
           <p>
@@ -275,7 +246,12 @@ export default function Home() {
             Boulder (Apr 2024 – Present)
           </p>
           <p className="text-gray-400">
-            Assisting students in Data Mining, Machine Learning, and AI courses.
+            Served as the primary point of contact for 120 students, conducting
+            regular online office hours to resolve course-related questions and
+            manage course support by ensuring timely responses via Salesforce.
+            Facilitating courses covering Data Mining, Machine Learning, and
+            Deep Learning, providing guidance on key concepts and technical
+            problem-solving.
           </p>
           <br />
           <p>
@@ -283,28 +259,45 @@ export default function Home() {
             of Colorado Boulder (Oct 2023 – Apr 2024)
           </p>
           <p className="text-gray-400">
-            Developed a Selenium based solution to automate data entry and cost
-            savings upto $1000/week.
+            Built a Python-based automation solution to extract data from HVAC
+            related documents, reducing manual data entry. Integrated Selenium
+            for web-based automation, reducing processing time by 95% and saving
+            approx. $1,000 weekly.
           </p>
           <br />
           <p>
             <strong>Intern</strong> - Intel Corporation (Jan 2023 – Jun 2023)
           </p>
           <p className="text-gray-400">
-            Automated data processing for 70,000 devices via REST API.
+            Developed a Python-based automation system to extract JSON data from
+            70,000 devices via REST APIs, reducing processing time by 90% and
+            enhancing pipeline efficiency, stability, and reliability. Currently
+            in use with Intel Employee devices in the United States, Israel,
+            Malaysia, and India. Collaborated in an Agile Scrum team,
+            participating in sprint planning, daily stand-ups, and
+            retrospectives while developing automation and data extraction
+            pipelines, ensuring smooth integration and continuous improvements.
           </p>
         </div>
       </div>
-
       {/* Projects Section */}
-      <div className="w-full max-w-3xl mt-10">
+      <div id="projects" className="w-full max-w-3xl mt-10">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-semibold text-blue-400">🚀 Projects</h2>
           <ul className="mt-4 space-y-4 text-left">
             <li>
-              <strong>🔹 AI Debate Agent</strong> - AI-powered system that
-              debates topics dynamically.
-              <br />
+              <strong>
+                🔹 AI Debate Agent: FastAPI, Gemini API, Streamlit, Render
+              </strong>{" "}
+              <p className="text-gray-300 mt-1">
+                Developed a dynamic LLM-powered application that debates any
+                topic with structured arguments for and against, using Google
+                Gemini 2.0 Flash API. The backend is built with FastAPI and
+                hosted on Render, while the frontend is developed in Streamlit
+                and deployed on Streamlit Cloud. The system intelligently
+                generates reasoned viewpoints by leveraging prompt engineering
+                and fine-tuned Gemini models.
+              </p>
               <a
                 href="https://ai-debate-agent-rby4ux2agtw4yxkrlgmkp8.streamlit.app/"
                 className="text-blue-400 hover:underline"
@@ -320,9 +313,44 @@ export default function Home() {
               </a>
             </li>
             <li>
-              <strong>🔹 AI-Powered Financial Research Chatbot</strong> - NLP
-              chatbot providing insights from financial data.
-              <br />
+              <strong>
+                🔹 ResumeGPT: FastAPI, Streamlit, Google Gemini, Embeddings
+              </strong>
+              <p className="text-gray-300 mt-1">
+                Built an end-to-end AI-powered career assistant that parses
+                resumes (PDF), matches them to suitable job roles using semantic
+                embeddings (SentenceTransformers), and provides Gemini-powered
+                feedback on resume quality and direction. It also generates
+                personalized skill gap analysis with curated learning paths. The
+                backend is built with FastAPI, and the Streamlit frontend is
+                hosted on Streamlit Cloud.
+              </p>
+              <a
+                href="https://github.com/ivky03/ai-resume-analyzer"
+                className="text-blue-400 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </li>
+
+            <li>
+              <strong>
+                🔹 AI-Powered Financial Research Chatbot: Python, RAG, FastAPI,
+                Next.js, Google Cloud
+              </strong>{" "}
+              <p className="text-gray-300 mt-1">
+                Developed and deployed an AI-driven financial research chatbot
+                using FastAPI (Python) and Google Gemini API with
+                Retrieval-Augmented Generation (RAG) to provide intelligent
+                answers from financial reports and market data. Built a Next.js
+                (TypeScript) frontend hosted on Vercel, and deployed the backend
+                on Google Cloud Run with Docker & Artifact Registry. Integrated
+                PostgreSQL (Cloud SQL) to store chat history, optimized
+                retrieval using FAISS/Pinecone, and implemented Google Cloud
+                Build CI/CD for automated deployment.
+              </p>
               <a
                 href="https://github.com/ivky03/AI-financial-chatbot"
                 className="text-blue-400 hover:underline"
@@ -331,23 +359,32 @@ export default function Home() {
               </a>
             </li>
             <li>
-              <strong>🔹 Customer Churn Prediction</strong> - ML model
-              predicting customer retention rates.
-              <br />
-              <a
-                href="https://github.com/ivky03/customer-churn"
-                className="text-blue-400 hover:underline"
-              >
-                GitHub
-              </a>
+              <strong>
+                🔹 Customer Churn Prediction: Python, Machine Learning, IBM
+                Cloud
+              </strong>{" "}
+              <p className="text-gray-300 mt-1">
+                Built an ML pipeline to predict customer churn (96.1% accuracy)
+                and estimate revenue, using Logistic Regression, Random Forest,
+                XGBoost (classification) and Linear Regression, Random Forest
+                Regressor, XGBoost Regressor (regression). Optimized performance
+                via feature engineering, hyperparameter tuning (GridSearchCV,
+                RandomizedSearchCV), and deployed a Flask API on IBM Cloud,
+                integrating IBM WatsonX for training and IBM COS for model
+                storage, enabling real-time predictions
+              </p>
             </li>
             <li>
               <strong>
                 🔹 Wind Power Forecasting with Ensemble
-                Model(LSTM,Transformers,GBDT)
+                Model(LSTM,Transformers,GBDT): Python, Deep Learning
               </strong>{" "}
-              - ML model predicting wind power forecasting.
-              <br />
+              <p className="text-gray-300 mt-1">
+                Developed an Ensemble Model (Transformer, LSTM, GBDT) for
+                time-series wind power forecasting, improving accuracy by 60%
+                over traditional models and reducing MAE by 58% and RMSE by 56%,
+                significantly enhancing prediction reliability
+              </p>
               <a
                 href="https://github.com/ivky03/Wind-Power-Forecasting-using-Ensemble-Learning"
                 className="text-blue-400 hover:underline"
@@ -356,10 +393,14 @@ export default function Home() {
               </a>
             </li>
             <li>
-              <strong>🔹 Movie Recommendation System</strong> - ML model
-              predicting movie titles based on Collaborative and Content
-              Filtering methods.
-              <br />
+              <strong>🔹 Movie Revenue and Recommendation System</strong>
+              <p className="text-gray-300 mt-1">
+                Enhanced a linear regression model for predicting movie revenues
+                with 70.34% accuracy and developed a hybrid recommendation
+                system using collaborative and content filtering with movie
+                genre weightages
+              </p>
+
               <a
                 href="https://github.com/ivky03/Movie-Recommendation-System"
                 className="text-blue-400 hover:underline"
@@ -369,22 +410,103 @@ export default function Home() {
             </li>
           </ul>
         </div>
-        {/* Resume Section */}
-        <div className="w-full max-w-3xl mt-10 text-center">
-          <h2 className="text-3xl font-semibold text-blue-400">📜 Resume</h2>
-          <p className="text-gray-300 mt-2">
-            Download my resume for more details on my experience and skills.
+        {/* Chatbot Section – Centered above Contact */}
+        <div
+          id="chatbot"
+          className="w-full max-w-5xl mt-20 bg-gray-800 p-6 rounded-lg shadow-lg transition-all duration-300 hover:bg-gray-700 hover:shadow-xl"
+        >
+          <h2 className="text-3xl font-semibold text-blue-300 mb-4 flex items-center justify-center">
+            <ChatBubbleLeftEllipsisIcon className="h-6 w-6 mr-2 text-blue-400" />
+            Chat with VickAI 🤖
+          </h2>
+          <p className="text-base md:text-lg text-gray-300 mb-6 text-center leading-relaxed">
+            Hey there! I’m <strong>VickAI 🤖</strong> — Vignesh’s personal AI
+            assistant! <br />
+            <strong>Skip the scrolling</strong> — just ask me what you're
+            looking for! Want to know which tech stack was used for the
+            Financial Chatbot, or whether Vignesh has experience with RAG? Or
+            maybe something fun? Like what's his favorite food, or is he a fan
+            of Messi? Yup, I can answer that too. I can even{" "}
+            <strong>speak</strong> my answers — enable speech below if you’d
+            like me to talk! I can also listen to you too. Just click on the
+            microphone icon and start asking your questions. Let’s go — ask me
+            anything about Vignesh’s skills, projects, or even a fun fact!
           </p>
-          <a
-            href="/VigneshCV.pdf"
-            download
-            className="inline-block mt-4 px-6 py-3 bg-gray-800 text-white rounded-lg transition-all duration-300 hover:bg-blue-500 hover:scale-105"
+
+          {/* Chat History */}
+          <div
+            ref={chatContainerRef}
+            className="h-[500px] overflow-y-auto border border-gray-600 rounded-lg p-4 bg-gray-900"
           >
-            Download Resume
-          </a>
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`flex mb-4 ${
+                  msg.sender === "user" ? "justify-end" : "justify-start"
+                } animate-slide-up`}
+              >
+                <div
+                  className={`px-4 py-2 max-w-xs rounded-lg ${
+                    msg.sender === "user"
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-700 text-gray-200"
+                  }`}
+                >
+                  <ReactMarkdown>{msg.text}</ReactMarkdown>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Input Section */}
+          <div className="flex mt-4">
+            <button
+              className="bg-gray-600 px-4 py-3 rounded-l-lg hover:bg-gray-700 flex items-center transition-all duration-300"
+              onClick={startListening}
+            >
+              <MicrophoneIcon className="h-5 w-5 text-white" />
+            </button>
+            <input
+              type="text"
+              className="flex-1 px-4 py-3 bg-gray-700 text-white border border-gray-600 focus:outline-none rounded-r-none"
+              placeholder="Ask me anything..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            />
+            <button
+              className="bg-blue-500 px-4 py-3 rounded-r-lg hover:bg-blue-600 disabled:bg-gray-500 flex items-center transition-all duration-300"
+              onClick={sendMessage}
+              disabled={loading}
+            >
+              {loading ? (
+                "..."
+              ) : (
+                <PaperAirplaneIcon className="h-5 w-5 text-white rotate-45" />
+              )}
+            </button>
+          </div>
+
+          {/* Control Buttons */}
+          <div className="mt-3 flex gap-4 justify-center">
+            <button
+              className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 flex items-center transition-all duration-300"
+              onClick={stopSpeaking}
+              disabled={!isSpeaking}
+            >
+              <StopIcon className="h-5 w-5 text-white inline-block mr-2" />
+              Stop Speaking
+            </button>
+            <button
+              className="bg-gray-500 px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center transition-all duration-300"
+              onClick={toggleSpeech}
+            >
+              {speechEnabled ? "🔊 Disable Speech" : "🔈 Enable Speech"}
+            </button>
+          </div>
         </div>
         {/* Contact Section */}
-        <div className="text-center mt-10">
+        <div id="contact" className="text-center mt-10">
           <h2 className="text-3xl font-semibold text-blue-400">📩 Contact</h2>
           <p className="mt-4 text-gray-300">Feel free to connect with me:</p>
           {/* ✅ Added description */}

@@ -62,13 +62,21 @@ Vignesh Kumar Karthikeyan
   - Built a **Next.js frontend (TypeScript)** hosted on **Vercel**, backend on **Google Cloud Run (Docker)**.  
   - Integrated **PostgreSQL (Cloud SQL) for chat history**, optimized retrieval with **FAISS/Pinecone**.  
 
+
+- **ResumeGPT**  
+   - Analyzes resumes, matches job roles  
+   - Suggests personalized learning paths  
+   - Uses FastAPI, Streamlit, Gemini API, embeddings (SentenceTransformers)
 - **Customer Churn Prediction & Revenue Estimation** (Python, IBM Cloud, XGBoost)  
   - Achieved **96.1% accuracy** in churn prediction using **Logistic Regression, Random Forest, XGBoost**.  
   - Deployed on **IBM Cloud** with WatsonX for real-time predictions.  
 
-- **Wind Power Prediction using Ensemble Learning** (Python, Deep Learning)  
+- **Wind Power Prediction using Ensemble Learning** (Python, Deep Learning,Jupyter Notebook)  
   - Built an **Ensemble Model (Transformer + LSTM + GBDT)** for time-series forecasting.  
   - Improved accuracy by **60%** over traditional models, reducing **MAE (58%) & RMSE (56%)**.  
+
+- **Movie Revenue and Recommendation System** (Python, Deeplearning, Jupyter Notebook)
+Enhanced a linear regression model for predicting movie revenues with 70.34% accuracy and developed a hybrid recommendation system using collaborative and content filtering with movie genre weightages
 
 🎉 **Fun Facts About Me**  
 - I have watched movies in **12 different languages**!  
