@@ -204,6 +204,95 @@ export default function Home() {
           </div>
         </section>
       </div>
+      {/* Chatbot Section – Just below Resume */}
+      {/* Chatbot Section – Centered above Contact */}
+      <div
+        id="chatbot"
+        className="w-full max-w-5xl mt-20 bg-gray-800 p-4 md:p-6 rounded-lg shadow-lg transition-all duration-300 hover:bg-gray-700 hover:shadow-xl"
+      >
+        <h2 className="text-2xl md:text-3xl font-semibold text-blue-300 mb-4 flex items-center justify-center">
+          <ChatBubbleLeftEllipsisIcon className="h-6 w-6 mr-2 text-blue-400" />
+          Chat with VickAI 🤖
+        </h2>
+        <p className="text-base md:text-lg text-gray-300 mb-4 text-center leading-relaxed">
+          Hey there! I’m <strong>VickAI 🤖</strong> — Vignesh’s personal AI
+          assistant! <br />
+          <strong>Skip the scrolling</strong> — just ask me what you're looking
+          for. (Literally Anything!)
+        </p>
+
+        {/* Chat History */}
+        <div
+          ref={chatContainerRef}
+          className="h-64 md:h-[500px] overflow-y-auto border border-gray-600 rounded-lg p-3 md:p-4 bg-gray-900"
+        >
+          {messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`flex mb-2 md:mb-4 ${
+                msg.sender === "user" ? "justify-end" : "justify-start"
+              } animate-slide-up`}
+            >
+              <div
+                className={`px-3 py-2 md:px-4 md:py-2 max-w-[80%] rounded-lg ${
+                  msg.sender === "user"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-700 text-gray-200"
+                }`}
+              >
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Input Section */}
+        <div className="flex mt-3 md:mt-4">
+          <button
+            className="bg-gray-600 px-3 md:px-4 py-2 md:py-3 rounded-l-lg hover:bg-gray-700 flex items-center transition-all duration-300"
+            onClick={startListening}
+          >
+            <MicrophoneIcon className="h-5 w-5 text-white" />
+          </button>
+          <input
+            type="text"
+            className="flex-1 px-3 md:px-4 py-2 md:py-3 bg-gray-700 text-white border border-gray-600 focus:outline-none rounded-r-none"
+            placeholder="Ask me anything..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          />
+          <button
+            className="bg-blue-500 px-3 md:px-4 py-2 md:py-3 rounded-r-lg hover:bg-blue-600 disabled:bg-gray-500 flex items-center transition-all duration-300"
+            onClick={sendMessage}
+            disabled={loading}
+          >
+            {loading ? (
+              "..."
+            ) : (
+              <PaperAirplaneIcon className="h-5 w-5 text-white rotate-45" />
+            )}
+          </button>
+        </div>
+
+        {/* Control Buttons */}
+        <div className="mt-2 md:mt-3 flex gap-2 md:gap-4 justify-center">
+          <button
+            className="bg-red-500 px-3 md:px-4 py-2 rounded-lg hover:bg-red-600 flex items-center transition-all duration-300"
+            onClick={stopSpeaking}
+            disabled={!isSpeaking}
+          >
+            <StopIcon className="h-5 w-5 text-white inline-block mr-1 md:mr-2" />
+            Stop Speaking
+          </button>
+          <button
+            className="bg-gray-500 px-3 md:px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center transition-all duration-300"
+            onClick={toggleSpeech}
+          >
+            {speechEnabled ? "🔊 Disable Speech" : "🔈 Enable Speech"}
+          </button>
+        </div>
+      </div>
 
       {/* Education Section */}
       <div id="education" className="w-full max-w-3xl mt-10">
@@ -410,101 +499,7 @@ export default function Home() {
             </li>
           </ul>
         </div>
-        {/* Chatbot Section – Centered above Contact */}
-        <div
-          id="chatbot"
-          className="w-full max-w-5xl mt-20 bg-gray-800 p-6 rounded-lg shadow-lg transition-all duration-300 hover:bg-gray-700 hover:shadow-xl"
-        >
-          <h2 className="text-3xl font-semibold text-blue-300 mb-4 flex items-center justify-center">
-            <ChatBubbleLeftEllipsisIcon className="h-6 w-6 mr-2 text-blue-400" />
-            Chat with VickAI 🤖
-          </h2>
-          <p className="text-base md:text-lg text-gray-300 mb-6 text-center leading-relaxed">
-            Hey there! I’m <strong>VickAI 🤖</strong> — Vignesh’s personal AI
-            assistant! <br />
-            <strong>Skip the scrolling</strong> — just ask me what you're
-            looking for! Want to know which tech stack was used for the
-            Financial Chatbot, or whether Vignesh has experience with RAG? Or
-            maybe something fun? Like what's his favorite food, or is he a fan
-            of Messi? Yup, I can answer that too. I can even{" "}
-            <strong>speak</strong> my answers — enable speech below if you’d
-            like me to talk! I can also listen to you too. Just click on the
-            microphone icon and start asking your questions. Let’s go — ask me
-            anything about Vignesh’s skills, projects, or even a fun fact!
-          </p>
 
-          {/* Chat History */}
-          <div
-            ref={chatContainerRef}
-            className="h-[500px] overflow-y-auto border border-gray-600 rounded-lg p-4 bg-gray-900"
-          >
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex mb-4 ${
-                  msg.sender === "user" ? "justify-end" : "justify-start"
-                } animate-slide-up`}
-              >
-                <div
-                  className={`px-4 py-2 max-w-xs rounded-lg ${
-                    msg.sender === "user"
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-700 text-gray-200"
-                  }`}
-                >
-                  <ReactMarkdown>{msg.text}</ReactMarkdown>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Input Section */}
-          <div className="flex mt-4">
-            <button
-              className="bg-gray-600 px-4 py-3 rounded-l-lg hover:bg-gray-700 flex items-center transition-all duration-300"
-              onClick={startListening}
-            >
-              <MicrophoneIcon className="h-5 w-5 text-white" />
-            </button>
-            <input
-              type="text"
-              className="flex-1 px-4 py-3 bg-gray-700 text-white border border-gray-600 focus:outline-none rounded-r-none"
-              placeholder="Ask me anything..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            />
-            <button
-              className="bg-blue-500 px-4 py-3 rounded-r-lg hover:bg-blue-600 disabled:bg-gray-500 flex items-center transition-all duration-300"
-              onClick={sendMessage}
-              disabled={loading}
-            >
-              {loading ? (
-                "..."
-              ) : (
-                <PaperAirplaneIcon className="h-5 w-5 text-white rotate-45" />
-              )}
-            </button>
-          </div>
-
-          {/* Control Buttons */}
-          <div className="mt-3 flex gap-4 justify-center">
-            <button
-              className="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 flex items-center transition-all duration-300"
-              onClick={stopSpeaking}
-              disabled={!isSpeaking}
-            >
-              <StopIcon className="h-5 w-5 text-white inline-block mr-2" />
-              Stop Speaking
-            </button>
-            <button
-              className="bg-gray-500 px-4 py-2 rounded-lg hover:bg-gray-600 flex items-center transition-all duration-300"
-              onClick={toggleSpeech}
-            >
-              {speechEnabled ? "🔊 Disable Speech" : "🔈 Enable Speech"}
-            </button>
-          </div>
-        </div>
         {/* Contact Section */}
         <div id="contact" className="text-center mt-10">
           <h2 className="text-3xl font-semibold text-blue-400">📩 Contact</h2>
