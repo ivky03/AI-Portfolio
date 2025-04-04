@@ -62,7 +62,11 @@ Vignesh Kumar Karthikeyan
   - Built a **Next.js frontend (TypeScript)** hosted on **Vercel**, backend on **Google Cloud Run (Docker)**.  
   - Integrated **PostgreSQL (Cloud SQL) for chat history**, optimized retrieval with **FAISS/Pinecone**.  
 
-
+--**Smart Recipe Recommender: Go, Python, Neo4j, GANs, Docker, AWS
+• Developed a Smart Recipe Recommender using Neo4j for building a Knowledge Graph of recipes and ingredients,
+incorporating GAN models for recipe variations. Implemented a Go-based API Gateway (Gin) to manage
+microservices, including recipe search and LLM-powered responses with LangChain. Deployed on AWS EC2 using
+Docker, with efficient search via vector databases (FAISS) and knowledge-driven recommendations.
 - **ResumeGPT**  
    - Analyzes resumes, matches job roles  
    - Suggests personalized learning paths  

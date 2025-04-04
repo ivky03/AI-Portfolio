@@ -403,6 +403,21 @@ export default function Home() {
             </li>
             <li>
               <strong>
+                🔹Smart Recipe Recommender: Go, Python, Neo4j, GANs, LangChain,
+                Docker, AWS
+              </strong>{" "}
+              <p className="text-gray-300 mt-1">
+                Developed a Smart Recipe Recommender using Neo4j for building a
+                Knowledge Graph of recipes and ingredients, incorporating GAN
+                models for recipe variations. Implemented a Go-based API Gateway
+                (Gin) to manage microservices, including recipe search and
+                LLM-powered responses with LangChain. Deployed on AWS EC2 using
+                Docker, with efficient search via vector databases (FAISS) and
+                knowledge-driven recommendations.
+              </p>
+            </li>
+            <li>
+              <strong>
                 🔹 ResumeGPT: FastAPI, Streamlit, Google Gemini, Embeddings
               </strong>
               <p className="text-gray-300 mt-1">

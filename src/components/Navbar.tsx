@@ -50,16 +50,16 @@ const Navbar = () => {
           <a href="#resume" className="hover:text-blue-400 transition">
             Resume
           </a>
-
+          <a href="#chatbot" className="hover:text-blue-400 transition">
+            VickAI
+          </a>
           <a href="#experience" className="hover:text-blue-400 transition">
             Experience
           </a>
           <a href="#projects" className="hover:text-blue-400 transition">
             Projects
           </a>
-          <a href="#chatbot" className="hover:text-blue-400 transition">
-            VickAI
-          </a>
+
           <a href="#contact" className="hover:text-blue-400 transition">
             Contact
           </a>
@@ -87,7 +87,13 @@ const Navbar = () => {
           >
             Resume
           </a>
-
+          <a
+            href="#chatbot"
+            onClick={toggleMenu}
+            className="block hover:text-blue-400"
+          >
+            VickAI
+          </a>
           <a
             href="#experience"
             onClick={toggleMenu}
@@ -102,13 +108,7 @@ const Navbar = () => {
           >
             Projects
           </a>
-          <a
-            href="#chatbot"
-            onClick={toggleMenu}
-            className="block hover:text-blue-400"
-          >
-            VickAI
-          </a>
+
           <a
             href="#contact"
             onClick={toggleMenu}
