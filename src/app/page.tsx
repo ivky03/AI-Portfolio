@@ -218,8 +218,9 @@ export default function Home() {
           Hey there! I’m <strong>VickAI 🤖</strong> — Vignesh’s personal AI
           assistant! <br />
           <strong>Skip the scrolling</strong> — just ask me what you're looking
-          for. (Literally Anything! : "What did Vignesh work on during his time
-          at Intel?" or "What food does Vignesh like?")
+          for. <br />
+          (Literally Anything! : "What did Vignesh work on during his time at
+          Intel?" or "What food does Vignesh like?")
         </p>
 
         {/* Chat History */}
