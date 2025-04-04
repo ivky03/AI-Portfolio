@@ -177,7 +177,7 @@ export default function Home() {
           {/* Embedded PDF viewer */}
           <div className="mt-6">
             <iframe
-              src="/VIgneshKumarCV.pdf"
+              src="/VigneshCV.pdf"
               width="100%"
               height="500px"
               className="rounded-lg border border-gray-700 shadow-md"
@@ -187,7 +187,7 @@ export default function Home() {
           {/* Buttons */}
           <div className="mt-4">
             <a
-              href="/VIgneshKumarCV.pdf"
+              href="/VigneshCV.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-blue-500 hover:scale-105 transition-all duration-300"
@@ -195,7 +195,7 @@ export default function Home() {
               View Fullscreen
             </a>
             <a
-              href="/VIgneshKumarCV.pdf"
+              href="/VigneshCV.pdf"
               download
               className="inline-block px-6 py-3 ml-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300"
             >
@@ -218,7 +218,8 @@ export default function Home() {
           Hey there! I’m <strong>VickAI 🤖</strong> — Vignesh’s personal AI
           assistant! <br />
           <strong>Skip the scrolling</strong> — just ask me what you're looking
-          for. (Literally Anything!)
+          for. (Literally Anything! : "What did Vignesh work on during his time
+          at Intel?" or "What food does Vignesh like?")
         </p>
 
         {/* Chat History */}
